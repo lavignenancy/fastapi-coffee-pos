@@ -26,6 +26,6 @@ The system maps coffee shop workflows across 8 core database tables:
 * **Database Migrations** — Alembic
 
 ## How to Run the Project
-1. Activate your virtual environment: `source env/bin/activate`
-2. Install dependencies: `pip install -r requirements.txt`
-3. Launch the local FastAPI dev server: `fastapi dev main.py`
+1. Activate your virtual environment: source env/bin/activate
+2. Install dependencies: pip install -r requirements.txt
+3. Launch the local FastAPI dev server: fastapi dev main.py
