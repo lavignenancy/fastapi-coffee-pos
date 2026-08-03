@@ -30,4 +30,5 @@ class SaleItemRepository:
         db.delete(db_obj)
         db.commit()
 
+
 sale_item_repository = SaleItemRepository()

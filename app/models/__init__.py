@@ -1,13 +1,13 @@
 from database import Base
-from .user import User          # Added .
-from .customer import Customer  # Added .
-from .supplier import Supplier  # Added .
-from .category import Category  # Added .
-from .product import Product    # Added .
-from .sale import Sale          # Added .
-from .sale_item import SaleItem  # Added .
-from .payment import Payment    # Added .
-from .receipt import Receipt    # Added .
+from .user import User
+from .customer import Customer
+from .supplier import Supplier
+from .category import Category
+from .product import Product
+from .sale import Sale
+from .sale_item import SaleItem
+from .payment import Payment
+from .receipt import Receipt
 
 __all__ = [
     "Base",

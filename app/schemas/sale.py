@@ -4,9 +4,8 @@ from pydantic import BaseModel, ConfigDict
 
 
 class SaleBase(BaseModel):
-    timestamp: datetime
     total_amount: Decimal
-    user_id: int
+    user_id: int | None = None
     customer_id: int | None = None
 
 
@@ -15,7 +14,6 @@ class SaleCreate(SaleBase):
 
 
 class SaleUpdate(BaseModel):
-    timestamp: datetime | None = None
     total_amount: Decimal | None = None
     user_id: int | None = None
     customer_id: int | None = None
@@ -23,4 +21,5 @@ class SaleUpdate(BaseModel):
 
 class SaleRead(SaleBase):
     id: int
+    timestamp: datetime
     model_config = ConfigDict(from_attributes=True)
