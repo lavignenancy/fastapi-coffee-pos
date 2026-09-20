@@ -31,7 +31,14 @@ def create_sale(db: Session, data: SaleCreate):
 
 def update_sale(db: Session, sale_id: int, data: SaleUpdate):
     sale = get_sale(db, sale_id)
-    return sale_repository.update(db, sale, data.model_dump(exclude_unset=True))
+    try:
+        return sale_repository.update(db, sale, data.model_dump(exclude_unset=True))
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid user_id or customer_id. Make sure both exist."
+        )
 
 
 def delete_sale(db: Session, sale_id: int):

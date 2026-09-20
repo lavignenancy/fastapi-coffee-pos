@@ -1,11 +1,11 @@
 from datetime import datetime
 from decimal import Decimal
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import AliasChoices, BaseModel, ConfigDict, Field
 
 
 class SaleItemBase(BaseModel):
-    sale_id: int = Field(alias="Sale_id")
-    product_id: int = Field(alias="Product_id")
+    sale_id: int = Field(validation_alias=AliasChoices("sale_id", "Sale_id"))
+    product_id: int = Field(validation_alias=AliasChoices("product_id", "Product_id"))
     quantity: int
     item_price: Decimal
 
@@ -17,8 +17,8 @@ class SaleItemCreate(SaleItemBase):
 
 
 class SaleItemUpdate(BaseModel):
-    sale_id: int | None = Field(default=None, alias="Sale_id")
-    product_id: int | None = Field(default=None, alias="Product_id")
+    sale_id: int | None = Field(default=None, validation_alias=AliasChoices("sale_id", "Sale_id"))
+    product_id: int | None = Field(default=None, validation_alias=AliasChoices("product_id", "Product_id"))
     quantity: int | None = None
     item_price: Decimal | None = None
 

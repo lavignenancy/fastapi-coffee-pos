@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 from database import Base
 
 class Supplier(Base):
@@ -9,5 +10,6 @@ class Supplier(Base):
     supplier_name = Column(String(100), nullable=False)
     contact_name = Column(String(100), nullable=True)
     phone = Column(String(20), nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
     products = relationship("Product", back_populates="supplier")
