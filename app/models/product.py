@@ -11,8 +11,8 @@ class Product(Base):
     product_name = Column(String(50), index=True, nullable=False)
     unit_price = Column(Numeric(10, 2), nullable=False)
     stock_qty = Column(Integer, default=0, nullable=False)
-    category_id = Column(Integer, ForeignKey("categories.id"), nullable=True)   # <-- added nullable=True
-    supplier_id = Column(Integer, ForeignKey("suppliers.id"), nullable=True)   # <-- added nullable=True
+    category_id = Column(Integer, ForeignKey("categories.id"), nullable=True)
+    supplier_id = Column(Integer, ForeignKey("suppliers.id"), nullable=True)
     is_active = Column(Boolean, default=True, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 

@@ -26,6 +26,51 @@ The system maps coffee shop workflows across 8 core database tables:
 * **Database Migrations** — Alembic
 
 ## How to Run the Project
-1. Activate your virtual environment: source env/bin/activate
-2. Install dependencies: pip install -r requirements.txt
-3. Launch the local FastAPI dev server: fastapi dev main.py
+1. Activate your virtual environment: `source env/bin/activate`
+2. Install dependencies: `pip install -r requirements.txt`
+3. Launch the local FastAPI dev server: `fastapi dev main.py`
+
+## Running Tests
+
+### Local Testing
+1. Install test dependencies:
+   ```bash
+   pip install -e .[test]
+   # or
+   pip install pytest pytest-asyncio httpx
+   ```
+
+2. Run the full test suite:
+   ```bash
+   pytest tests/ -v
+   ```
+
+3. Run tests with coverage:
+   ```bash
+   pytest tests/ -v --cov=app --cov-report=term-missing
+   ```
+
+4. Run specific test file:
+   ```bash
+   pytest tests/test_users.py -v
+   ```
+
+### Test Structure
+- `tests/conftest.py` — Shared fixtures and test database setup (SQLite in-memory)
+- `tests/test_users.py` — User CRUD operations and validation tests
+- `tests/test_customers.py` — Customer CRUD operations and validation tests
+- `tests/test_suppliers.py` — Supplier CRUD operations and validation tests
+- `tests/test_categories.py` — Category CRUD operations and validation tests
+- `tests/test_products.py` — Product CRUD operations and validation tests
+- `tests/test_sales.py` — Sale CRUD operations and validation tests
+- `tests/test_sale_items.py` — Sale Item CRUD operations and validation tests
+- `tests/test_payments.py` — Payment CRUD operations and validation tests
+- `tests/test_receipts.py` — Receipt CRUD operations and validation tests
+
+### CI/CD
+Tests run automatically on every push and pull request via GitHub Actions (`.github/workflows/ci.yml`). The workflow:
+1. Checks out the repository
+2. Sets up Python 3.10
+3. Installs dependencies
+4. Runs the complete test suite
+5. Fails if any test fails

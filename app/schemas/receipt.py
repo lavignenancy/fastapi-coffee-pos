@@ -3,7 +3,7 @@ from pydantic import BaseModel, ConfigDict
 
 
 class ReceiptBase(BaseModel):
-    Sale_id: int
+    sale_id: int
     receipt_number: str
 
 
@@ -12,7 +12,7 @@ class ReceiptCreate(ReceiptBase):
 
 
 class ReceiptUpdate(BaseModel):
-    Sale_id: int | None = None
+    sale_id: int | None = None
     receipt_number: str | None = None
 
 

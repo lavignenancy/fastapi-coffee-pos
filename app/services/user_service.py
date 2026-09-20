@@ -1,4 +1,5 @@
 from fastapi import HTTPException, status
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from schemas.user import UserCreate, UserUpdate
 from repositories.user_repository import user_repository
@@ -18,12 +19,26 @@ def list_users(db: Session):
 
 
 def create_user(db: Session, data: UserCreate):
-    return user_repository.create(db, data.model_dump())
+    try:
+        return user_repository.create(db, data.model_dump())
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Username already exists"
+        )
 
 
 def update_user(db: Session, user_id: int, data: UserUpdate):
     user = get_user(db, user_id)
-    return user_repository.update(db, user, data.model_dump(exclude_unset=True))
+    try:
+        return user_repository.update(db, user, data.model_dump(exclude_unset=True))
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Username already exists"
+        )
 
 
 def delete_user(db: Session, user_id: int):

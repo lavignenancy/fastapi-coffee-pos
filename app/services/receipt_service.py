@@ -1,4 +1,5 @@
 from fastapi import HTTPException, status
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from schemas.receipt import ReceiptCreate, ReceiptUpdate
 from repositories.receipt_repository import receipt_repository
@@ -18,14 +19,28 @@ def list_receipts(db: Session):
 
 
 def create_receipt(db: Session, data: ReceiptCreate):
-    return receipt_repository.create(db, data.model_dump())
+    try:
+        return receipt_repository.create(db, data.model_dump())
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Receipt number already exists"
+        )
 
 
 def update_receipt(db: Session, receipt_id: int, data: ReceiptUpdate):
     receipt = get_receipt(db, receipt_id)
-    return receipt_repository.update(
-        db, receipt, data.model_dump(exclude_unset=True)
-    )
+    try:
+        return receipt_repository.update(
+            db, receipt, data.model_dump(exclude_unset=True)
+        )
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Receipt number already exists"
+        )
 
 
 def delete_receipt(db: Session, receipt_id: int):
